@@ -41,8 +41,7 @@ header nav a:hover {
 
 /* Hero Section */
 .hero {
-  background: url("https://img.freepik.com/fotos-gratis/blocos-de-sabao-caseiros-para-copiar-espaco_23-2148796355.jpg")
-    center/cover no-repeat;
+  background: url("images/hero.png") center/cover no-repeat;
   height: 70vh;
   display: flex;
   align-items: center;
