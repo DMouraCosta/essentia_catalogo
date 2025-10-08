@@ -328,6 +328,7 @@ ul li {
 .preview.order-panel h3 {
   border-bottom: none;
 }
+/*
 .preview.order-panel #soap-preview {
   width: 100%;
   height: auto;
@@ -348,6 +349,7 @@ ul li {
 .preview.order-panel #soap-preview.animate {
   transform: scale(1.05) rotateZ(3deg);
 }
+*/
 
 #btn-mount {
   width: 100%;

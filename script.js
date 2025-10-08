@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
   // Configurações de Dados
-  // !! IMPORTANTE: Substitua SEU_NUMERO_AQUI pelo seu número de telefone (ex: 5511987654321)
+
   const baseWhatsappURL =
-    "https://api.whatsapp.com/send?phone=SEU_NUMERO_AQUI&text=";
+    "https://api.whatsapp.com/send?phone=+5589981319258&text=";
 
   // Elementos DOM
-  const previewImg = document.getElementById("soap-preview");
+  // const previewImg = document.getElementById("soap-preview"); // Comentado
   const btnMount = document.getElementById("btn-mount");
   const resultPanel = document.getElementById("result-panel");
   const basePriceSpan = document.getElementById("base-price");
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const finalPriceSpan = document.getElementById("final-price");
   const totalQtySpan = document.getElementById("total-qty");
   const whatsappLink = document.getElementById("whatsapp-link");
-  const quantityInput = document.getElementById("quantity"); // Onde a correção foi aplicada
+  const quantityInput = document.getElementById("quantity");
 
   const colorOptions = document.querySelectorAll("#color-options .option");
   const shapeOptions = document.querySelectorAll("#shape-options button");
@@ -41,111 +41,23 @@ document.addEventListener("DOMContentLoaded", () => {
     sponge: "sem",
     spongeExtra: 0,
     foam: "normal",
-    quantity: 1,
+    quantity: 1, // Inicializado em 1, conforme input HTML
   };
 
-  // Mapeamento de Imagens e Estilos (Para visualização)
+  // Mapeamento de Imagens e Estilos (Comentado/Removido - Deixado aqui para referência se precisar reativar)
+  /*
   const soapImages = {
-    branco_redondo:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600",
-    branco_quadrado:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600&h=400",
-    branco_oval:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600",
-    branco_flor:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600",
-    branco_massageador:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600",
-    azul_redondo:
-      "https://images.pexels.com/photos/7796393/pexels-photo-7796393.jpeg?auto=compress&cs=tinysrgb&w=600",
-    azul_quadrado:
-      "https://images.pexels.com/photos/7796393/pexels-photo-7796393.jpeg?auto=compress&cs=tinysrgb&w=600&h=400",
-    azul_oval:
-      "https://images.pexels.com/photos/7796393/pexels-photo-7796393.jpeg?auto=compress&cs=tinysrgb&w=600",
-    azul_flor:
-      "https://images.pexels.com/photos/7796393/pexels-photo-7796393.jpeg?auto=compress&cs=tinysrgb&w=600",
-    azul_massageador:
-      "https://images.pexels.com/photos/7796393/pexels-photo-7796393.jpeg?auto=compress&cs=tinysrgb&w=600",
-    vermelho_redondo:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600",
-    vermelho_quadrado:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600&h=400",
-    vermelho_oval:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600",
-    vermelho_flor:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600",
-    vermelho_massageador:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600",
-    amarelo_redondo:
-      "https://images.pexels.com/photos/7796382/pexels-photo-7796382.jpeg?auto=compress&cs=tinysrgb&w=600",
-    amarelo_quadrado:
-      "https://images.pexels.com/photos/7796382/pexels-photo-7796382.jpeg?auto=compress&cs=tinysrgb&w=600&h=400",
-    amarelo_oval:
-      "https://images.pexels.com/photos/7796382/pexels-photo-7796382.jpeg?auto=compress&cs=tinysrgb&w=600",
-    amarelo_flor:
-      "https://images.pexels.com/photos/7796382/pexels-photo-7796382.jpeg?auto=compress&cs=tinysrgb&w=600",
-    amarelo_massageador:
-      "https://images.pexels.com/photos/7796382/pexels-photo-7796382.jpeg?auto=compress&cs=tinysrgb&w=600",
-    rosa_redondo:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600",
-    rosa_quadrado:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600&h=400",
-    rosa_oval:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600",
-    rosa_flor:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600",
-    rosa_massageador:
-      "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600",
-    verde_redondo:
-      "https://images.pexels.com/photos/7796403/pexels-photo-7796403.jpeg?auto=compress&cs=tinysrgb&w=600",
-    verde_quadrado:
-      "https://images.pexels.com/photos/7796403/pexels-photo-7796403.jpeg?auto=compress&cs=tinysrgb&w=600&h=400",
-    verde_oval:
-      "https://images.pexels.com/photos/7796403/pexels-photo-7796403.jpeg?auto=compress&cs=tinysrgb&w=600",
-    verde_flor:
-      "https://images.pexels.com/photos/7796403/pexels-photo-7796403.jpeg?auto=compress&cs=tinysrgb&w=600",
-    verde_massageador:
-      "https://images.pexels.com/photos/7796403/pexels-photo-7796403.jpeg?auto=compress&cs=tinysrgb&w=600",
-    laranja_redondo:
-      "https://images.pexels.com/photos/7796382/pexels-photo-7796382.jpeg?auto=compress&cs=tinysrgb&w=600",
-    laranja_quadrado:
-      "https://images.pexels.com/photos/7796382/pexels-photo-7796382.jpeg?auto=compress&cs=tinysrgb&w=600&h=400",
-    laranja_oval:
-      "https://images.pexels.com/photos/7796382/pexels-photo-7796382.jpeg?auto=compress&cs=tinysrgb&w=600",
-    laranja_flor:
-      "https://images.pexels.com/photos/7796382/pexels-photo-7796382.jpeg?auto=compress&cs=tinysrgb&w=600",
-    laranja_massageador:
-      "https://images.pexels.com/photos/7796382/pexels-photo-7796382.jpeg?auto=compress&cs=tinysrgb&w=600",
-    marmorizado_redondo:
-      "https://images.pexels.com/photos/7796405/pexels-photo-7796405.jpeg?auto=compress&cs=tinysrgb&w=600",
-    marmorizado_quadrado:
-      "https://images.pexels.com/photos/7796405/pexels-photo-7796405.jpeg?auto=compress&cs=tinysrgb&w=600&h=400",
-    marmorizado_oval:
-      "https://images.pexels.com/photos/7796405/pexels-photo-7796405.jpeg?auto=compress&cs=tinysrgb&w=600",
-    marmorizado_flor:
-      "https://images.pexels.com/photos/7796405/pexels-photo-7796405.jpeg?auto=compress&cs=tinysrgb&w=600",
-    marmorizado_massageador:
-      "https://images.pexels.com/photos/7796405/pexels-photo-7796405.jpeg?auto=compress&cs=tinysrgb&w=600",
+    // ... URLs de Imagem
   };
 
   const colorStyles = {
-    branco: "#ccc",
-    azul: "#2196f3",
-    vermelho: "#f44336",
-    amarelo: "#fbc02d",
-    rosa: "#e91e63",
-    verde: "#8bc34a",
-    laranja: "#ff9800",
-    marmorizado: "#9e9e9e",
+    // ... Estilos de Cor
   };
 
   const borderRadiusStyles = {
-    redondo: "50%",
-    quadrado: "12px",
-    oval: "50% / 35%",
-    flor: "30% 70% 50% 50%",
-    massageador: "20px 50% 20px 50%",
+    // ... Estilos de Borda
   };
+  */
 
   // ================= UTILITY FUNCTIONS =================
 
@@ -153,10 +65,10 @@ document.addEventListener("DOMContentLoaded", () => {
     list.forEach((el) => el.classList.remove("active"));
     selected.classList.add("active");
     if (callback) callback(selected);
-    // Limpar o painel de resultado e preview ao mudar uma opção
+    // Limpar o painel de resultado ao mudar uma opção
     resultPanel.classList.add("hidden");
-    previewImg.classList.add("hidden");
-    previewImg.classList.remove("animate");
+    // previewImg.classList.add("hidden"); // Comentado
+    // previewImg.classList.remove("animate"); // Comentado
   }
 
   function formatPrice(price) {
@@ -213,38 +125,31 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${baseWhatsappURL}${message}`;
   }
 
-  function updatePreviewAndOrder() {
+  function updateOrderPanel() {
+    // O código de preview da imagem foi removido.
+    /*
     const soapKey = `${current.color}_${current.shape}`;
     const imageUrl = soapImages[soapKey];
 
-    if (!imageUrl) {
-      alert(
-        "Combinação de Cor e Formato inválida para pré-visualização. Por favor, selecione outra."
-      );
-      return;
+    if (imageUrl) {
+        previewImg.src = imageUrl;
+        previewImg.style.border = `8px solid ${colorStyles[current.color]}`;
+        previewImg.style.borderRadius = borderRadiusStyles[current.shape] || "12px";
+        previewImg.style.opacity = current.foam === "menos" ? 0.8 : current.foam === "mais" ? 1 : 0.9;
+        previewImg.style.boxShadow =
+            current.decor === "none" ? "0 4px 12px rgba(0,0,0,.3)" : "0 0 25px rgba(0,0,0,0.4)";
+        previewImg.classList.remove("hidden");
+        previewImg.classList.add("animate");
+        setTimeout(() => previewImg.classList.remove("animate"), 1000);
+    } else {
+        previewImg.classList.add("hidden");
     }
+    */
 
-    // 1. Atualiza a Pré-visualização da Imagem e Estilo
-    previewImg.src = imageUrl;
-    previewImg.style.border = `8px solid ${colorStyles[current.color]}`;
-    previewImg.style.borderRadius = borderRadiusStyles[current.shape] || "12px";
-
-    // Ajusta opacidade/sombra para simular espuma/decoração
-    previewImg.style.opacity =
-      current.foam === "menos" ? 0.8 : current.foam === "mais" ? 1 : 0.9;
-    previewImg.style.boxShadow =
-      current.decor === "none"
-        ? "0 4px 12px rgba(0,0,0,.3)"
-        : "0 0 25px rgba(0,0,0,0.4)";
-
-    previewImg.classList.remove("hidden");
-    previewImg.classList.add("animate");
-    setTimeout(() => previewImg.classList.remove("animate"), 1000);
-
-    // 2. Calcula Preço e Atualiza Painel
+    // 1. Calcula Preço e Atualiza Painel
     const { finalPrice } = calculatePrice();
 
-    // 3. Gera Link do WhatsApp
+    // 2. Gera Link do WhatsApp
     whatsappLink.href = generateWhatsappLink(finalPrice);
     resultPanel.classList.remove("hidden");
   }
@@ -252,22 +157,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // ================= EVENT LISTENERS (PERSONALIZE) =================
 
   // Botão Montar Sabonete
-  btnMount.addEventListener("click", updatePreviewAndOrder);
+  btnMount.addEventListener("click", updateOrderPanel);
 
-  // Quantidade (BUG FIX IMPLEMENTADO AQUI)
   quantityInput.addEventListener("input", (e) => {
-    // Tenta converter o valor para um inteiro
     let qty = parseInt(e.target.value, 10);
 
-    // Valida o número: deve ser maior que 0. Se for inválido, usa 1.
-    if (isNaN(qty) || qty < 1) {
-      qty = 1;
+    if (isNaN(qty) || qty < 0) {
+      qty = 0;
     }
 
     current.quantity = qty;
 
-    // **A correção:** Força o valor do input a ser o número inteiro validado.
-    // Isso impede a concatenação visual em mobile (ex: '1' + '2' = '12')
+    // Força o valor do input a ser o número inteiro validado (útil para mobile e limpar campo)
     e.target.value = current.quantity;
 
     // Recalcula e atualiza se o painel estiver visível (já montado)
@@ -305,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btn,
         (selected) => {
           const type = selected.parentElement.id.replace("-options", ""); // essence, property, foam
-          // Trata o nome do dataset ('essence' para 'essences')
+          // Trata o nome do dataset ('essence' para 'essences' etc.)
           current[type] = selected.dataset[type.slice(0, -1) || type];
         }
       );
