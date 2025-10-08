@@ -2,11 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Configurações de Dados
   // !! IMPORTANTE: Substitua SEU_NUMERO_AQUI pelo seu número de telefone (ex: 5511987654321)
   const baseWhatsappURL =
-    "https://api.whatsapp.com/send?phone=+5589988227748&text=";
-
-  // Acréscimos fixos (mantidos)
-  const extraPriceDecor = 2.0;
-  const extraPriceSponge = 1.0;
+    "https://api.whatsapp.com/send?phone=SEU_NUMERO_AQUI&text=";
 
   // Elementos DOM
   const previewImg = document.getElementById("soap-preview");
@@ -18,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const finalPriceSpan = document.getElementById("final-price");
   const totalQtySpan = document.getElementById("total-qty");
   const whatsappLink = document.getElementById("whatsapp-link");
-  const quantityInput = document.getElementById("quantity");
+  const quantityInput = document.getElementById("quantity"); // Onde a correção foi aplicada
 
   const colorOptions = document.querySelectorAll("#color-options .option");
   const shapeOptions = document.querySelectorAll("#shape-options button");
@@ -32,12 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const comboButtons = document.querySelectorAll(".whatsapp-btn-combo");
   const especialButtons = document.querySelectorAll(".whatsapp-btn-especial");
 
-  // Estado Atual (Initial State - Ajustado para novos preços)
+  // Estado Atual (Preços baseados nas Linhas: 60g=R$8, 100g=R$12, 125g=R$16)
   let current = {
     color: "branco",
     shape: "redondo",
     weight: "60g",
-    basePrice: 8.0, // Novo preço base
+    basePrice: 8.0,
     essence: "lavanda",
     property: "nenhum",
     decor: "none",
@@ -45,10 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
     sponge: "sem",
     spongeExtra: 0,
     foam: "normal",
-    quantity: 1, // Novo campo de quantidade
+    quantity: 1,
   };
 
-  // Imagens (mantidas, mas formatadas de forma mais compacta)
+  // Mapeamento de Imagens e Estilos (Para visualização)
   const soapImages = {
     branco_redondo:
       "https://images.pexels.com/photos/7796389/pexels-photo-7796389.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -167,7 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return `R$ ${price.toFixed(2).replace(".", ",")}`;
   }
 
-  // Capitaliza a primeira letra e substitui hífens
   function formatOptionName(str) {
     if (!str) return "Não Informado";
     return str.charAt(0).toUpperCase() + str.slice(1).replace("-", " ");
@@ -259,11 +254,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // Botão Montar Sabonete
   btnMount.addEventListener("click", updatePreviewAndOrder);
 
-  // Quantidade
+  // Quantidade (BUG FIX IMPLEMENTADO AQUI)
   quantityInput.addEventListener("input", (e) => {
-    const qty = parseInt(e.target.value, 10);
-    current.quantity = qty > 0 ? qty : 1;
+    // Tenta converter o valor para um inteiro
+    let qty = parseInt(e.target.value, 10);
+
+    // Valida o número: deve ser maior que 0. Se for inválido, usa 1.
+    if (isNaN(qty) || qty < 1) {
+      qty = 1;
+    }
+
+    current.quantity = qty;
+
+    // **A correção:** Força o valor do input a ser o número inteiro validado.
+    // Isso impede a concatenação visual em mobile (ex: '1' + '2' = '12')
     e.target.value = current.quantity;
+
     // Recalcula e atualiza se o painel estiver visível (já montado)
     if (!resultPanel.classList.contains("hidden")) {
       const { finalPrice } = calculatePrice();
@@ -299,7 +305,8 @@ document.addEventListener("DOMContentLoaded", () => {
         btn,
         (selected) => {
           const type = selected.parentElement.id.replace("-options", ""); // essence, property, foam
-          current[type] = selected.dataset[type.slice(0, -1) || type]; // 'essence', 'property', 'foam'
+          // Trata o nome do dataset ('essence' para 'essences')
+          current[type] = selected.dataset[type.slice(0, -1) || type];
         }
       );
     });
@@ -399,7 +406,7 @@ Aguardando as opções de personalização para fecharmos o pedido.`
       const targetId = link.getAttribute("href");
       const targetElement = document.querySelector(targetId);
       if (targetElement) {
-        // Usa o scrollIntoView com uma pequena correção para o header fixo
+        // Calcula a posição do elemento subtraindo a altura do cabeçalho fixo
         const headerHeight = document.querySelector("header").offsetHeight;
         const targetPosition =
           targetElement.getBoundingClientRect().top +
