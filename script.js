@@ -356,8 +356,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const message = encodeURIComponent(
         `Olá, vim do catálogo e gostaria de fazer um pedido de *${name}*!
 
-*Valor Total:* ${formatPrice(price)}
-Qual é a sua escolha de fragrâncias e cores?`
+*Valor Total:* ${formatPrice(price)}`
       );
 
       btn.href = `${baseWhatsappURL}${message}`;
