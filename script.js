@@ -29,13 +29,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const especialButtons = document.querySelectorAll(".whatsapp-btn-especial");
 
   // Estado Atual (Preços baseados nas Linhas: 60g=R$8, 100g=R$12, 125g=R$16)
+  // Os valores iniciais serão definidos pela função `setActive` na inicialização,
+  // mas aqui estão os valores padrão do primeiro item de cada grupo do HTML.
   let current = {
     color: "branco",
     shape: "redondo",
     weight: "60g",
     basePrice: 8.0,
-    essence: "lavanda",
-    property: "nenhum",
+    // CORREÇÃO: Os valores iniciais de essence e property foram ajustados para refletir
+    // os data-attributes do primeiro botão de cada grupo no HTML.
+    essence: "lavanda", // Primeiro item em #essence-options
+    property: "nenhum", // Primeiro item em #property-options
     decor: "none",
     decorExtra: 0,
     sponge: "sem",
@@ -77,6 +81,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function formatOptionName(str) {
     if (!str) return "Não Informado";
+    // CORREÇÃO: Adicionada lógica para tratar "none" e "sem" como "Nenhum/Sem" de forma mais clara
+    if (str.toLowerCase() === "none" || str.toLowerCase() === "sem")
+      return "Nenhum/Sem";
     return str.charAt(0).toUpperCase() + str.slice(1).replace("-", " ");
   }
 
@@ -159,6 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Botão Montar Sabonete
   btnMount.addEventListener("click", updateOrderPanel);
 
+  // Input de Quantidade
   quantityInput.addEventListener("input", (e) => {
     let qty = parseInt(e.target.value, 10);
 
@@ -205,9 +213,27 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.parentElement.querySelectorAll("button"),
         btn,
         (selected) => {
+          const parentId = selected.parentElement.id;
+          let type;
+
+          // CORREÇÃO: Lógica para capturar o tipo de configuração e o data-attribute correto.
+          if (parentId === "essence-options") {
+            type = "essence";
+            current[type] = selected.dataset.essence;
+          } else if (parentId === "property-options") {
+            type = "property";
+            current[type] = selected.dataset.property;
+          } else if (parentId === "foam-options") {
+            type = "foam";
+            current[type] = selected.dataset.foam;
+          }
+
+          // Trecho original com erro:
+          /*
           const type = selected.parentElement.id.replace("-options", ""); // essence, property, foam
           // Trata o nome do dataset ('essence' para 'essences' etc.)
           current[type] = selected.dataset[type.slice(0, -1) || type];
+          */
         }
       );
     });
@@ -325,11 +351,48 @@ Aguardando as opções de personalização para fecharmos o pedido.`
   // ================= INICIALIZAÇÃO =================
 
   // Define o estado inicial ativo para todos os grupos de botões.
-  setActive(colorOptions, colorOptions[0]);
-  setActive(shapeOptions, shapeOptions[0]);
-  setActive(essenceOptions, essenceOptions[0]);
-  setActive(propertyOptions, propertyOptions[0]);
-  setActive(decorOptions, decorOptions[0]);
-  setActive(spongeOptions, spongeOptions[0]);
-  setActive(foamOptions, foamOptions[0]);
+  // CORREÇÃO: Define o estado inicial do `current` com base nos data-attributes do primeiro elemento
+  // de cada grupo, garantindo que o `current` tenha os valores corretos ao iniciar.
+
+  // Cor
+  setActive(colorOptions, colorOptions[0], (selected) => {
+    current.color = selected.dataset.color;
+  });
+
+  // Formato (Peso e Preço Base)
+  setActive(shapeOptions, shapeOptions[0], (selected) => {
+    current.shape = selected.dataset.shape;
+    current.weight = selected.dataset.weight;
+    current.basePrice = parseFloat(selected.dataset.price);
+  });
+
+  // Essência
+  setActive(essenceOptions, essenceOptions[0], (selected) => {
+    current.essence = selected.dataset.essence; // Usa data-essence
+  });
+
+  // Propriedades
+  setActive(propertyOptions, propertyOptions[0], (selected) => {
+    current.property = selected.dataset.property; // Usa data-property
+  });
+
+  // Decoração
+  setActive(decorOptions, decorOptions[0], (selected) => {
+    current.decor = selected.dataset.decor;
+    current.decorExtra = 0; // O primeiro não tem extra
+  });
+
+  // Bucha Vegetal
+  setActive(spongeOptions, spongeOptions[0], (selected) => {
+    current.sponge = selected.dataset.sponge;
+    current.spongeExtra = 0; // O primeiro não tem extra
+  });
+
+  // Nível de Espuma
+  setActive(foamOptions, foamOptions[0], (selected) => {
+    current.foam = selected.dataset.foam; // Usa data-foam
+  });
+
+  // Garante que o input de quantidade comece com o valor correto
+  quantityInput.value = current.quantity;
 });
