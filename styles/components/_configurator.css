@@ -1,0 +1,149 @@
+/* styles/components/_configurator.css */
+.configurator {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: auto;
+  align-items: flex-start;
+}
+
+.options {
+  flex: 2;
+  min-width: 300px;
+}
+
+.options h3 {
+  margin: 1.5rem 0 0.5rem;
+  color: #2f6f51;
+  border-bottom: 2px solid #95d5b2;
+  padding-bottom: 0.3rem;
+}
+
+.option-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Color Options */
+.option-grid .option {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border: 2px solid transparent;
+  transition: 0.3s;
+}
+
+.option-grid .option:hover,
+.option-grid .option.active {
+  border: 3px solid #2f6f51;
+  transform: scale(1.1);
+}
+
+/* Button Options (Shape, Essense, etc.) */
+.option-grid button {
+  flex: 1 1 calc(33% - 0.5rem);
+  padding: 0.5rem;
+  border: 1px solid #cdeac0;
+  border-radius: 6px;
+  background: #e8f5e9;
+  color: #2f6f51;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 0.9rem;
+  min-width: 100px;
+}
+
+#essence-options button,
+#property-options button {
+  flex: 1 1 calc(25% - 0.5rem);
+}
+
+.option-grid button:hover {
+  background: #cdeac0;
+}
+
+.option-grid button.active {
+  background: #2f6f51;
+  color: #fff;
+  border-color: #2f6f51;
+  font-weight: bold;
+}
+
+/* Preview & Order Panel */
+.preview.order-panel {
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: sticky;
+  top: 6rem; /* Stick it below the header (adjusting for scroll-padding) */
+}
+
+.quantity-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+#quantity {
+  width: 80px;
+  padding: 0.5rem;
+  border: 1px solid #cdeac0;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.preview.order-panel h3 {
+  border-bottom: none;
+}
+
+/* Result Panel */
+#result-panel {
+  width: 100%;
+  padding: 1rem;
+  background: #f1f8e9;
+  border-radius: 8px;
+  text-align: left;
+  transition: opacity 0.5s;
+}
+
+#result-panel.hidden {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  padding: 0;
+}
+
+#result-panel p,
+#result-panel h4 {
+  margin: 0.3rem 0;
+  color: #4caf50;
+  font-size: 0.95rem;
+}
+
+#result-panel hr {
+  margin: 0.8rem 0;
+  border: 0;
+  border-top: 1px dashed #cdeac0;
+}
+
+#result-panel h3 {
+  color: #2f6f51;
+  font-size: 1.3rem;
+  margin-top: 0.5rem;
+  text-align: left;
+}

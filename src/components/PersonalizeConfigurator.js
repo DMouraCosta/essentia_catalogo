@@ -125,7 +125,7 @@ function setupOptionListeners() {
     let qty = parseInt(e.target.value, 10);
 
     if (isNaN(qty) || qty < 1) {
-      qty = 0; // Garante que a quantidade mínima seja 1
+      qty = 0; // Garante que a quantidade mínima seja 0
     }
 
     currentConfig.quantity = qty;
