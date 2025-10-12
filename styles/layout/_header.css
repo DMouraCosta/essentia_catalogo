@@ -1,0 +1,28 @@
+/* styles/layout/_header.css */
+header {
+  background: #2f6f51;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+  font-size: 1.8rem;
+}
+
+header nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 1rem;
+  transition: 0.3s;
+}
+
+header nav a:hover {
+  color: #cdeac0;
+}

@@ -1,0 +1,68 @@
+/* styles/components/_buttons.css */
+.btn {
+  display: inline-block;
+  background: #95d5b2;
+  color: #1b4332;
+  padding: 0.8rem 1.5rem;
+  margin-top: 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s;
+  border: none; /* Para botões */
+  cursor: pointer; /* Para botões */
+}
+
+.btn:hover {
+  background: #74c69d;
+  transform: scale(1.05);
+}
+
+.whatsapp-btn-combo,
+.whatsapp-btn-especial {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #25d366; /* WhatsApp Green */
+  color: #fff;
+  font-weight: bold;
+  padding: 0.6rem 1rem;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.whatsapp-btn-combo:hover,
+.whatsapp-btn-especial:hover {
+  background: #128c7e;
+  transform: scale(1.02);
+}
+
+#btn-mount {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  background: #2f6f51;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#btn-mount:hover {
+  background: #1b4332;
+}
+
+#result-panel .whatsapp-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #25d366;
+  color: #fff;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
